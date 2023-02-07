@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<doofinder>
+			<general>
+				<status>0</status>
+				<zone>eu1</zone>
+				<token/>
+				<hashid/>
+			</general>
+			<search_settings>
+				<rpp>20</rpp>
+				<min_length>2</min_length>
+				<include_filters>1</include_filters>
+				<exclude_attributes_list>description,features,weight,entity_id,attribute_set_id,url_key,request_path,required_options,has_options,meta_keyword,short_description,meta_description,stock_item,updated_at,created_at,type_id,tier_price_changed,store_id,popular_products,status,gift_message_available,options_container,thumbnail,small_image,image,bullet_5,bullet_4,bullet_3,bullet_2,bullet_1,google_product_category,msrp_display_actual_price_type,visibility,tier_price</exclude_attributes_list>
+			</search_settings>
+		</doofinder>
+	</default>
+</config>

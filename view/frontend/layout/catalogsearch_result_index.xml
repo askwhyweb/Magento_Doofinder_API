@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceContainer name="content">
+			<block class="OrviSoft\MagentoDoofinder\Block\Catalog\Search\Results" name="layer.category.products" as="catalog_search_results" template="OrviSoft_MagentoDoofinder::catalog/search/results.phtml" ifconfig="doofinder/general/status" />
+		</referenceContainer>
+	</body>
+</page>

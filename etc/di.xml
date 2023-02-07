@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="OrviSoft\MagentoDoofinder\Block\Catalog\Search\Results">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="cache_lifetime" xsi:type="number">900</item>
+                <item name="cache_key" xsi:type="string">4XGAC28YC84HX70EK7</item> // Not needed unless same block name and multiple outputs based on pid or something
+            </argument>
+        </arguments>
+    </type>
+</config>

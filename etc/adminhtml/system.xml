@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="orvisoft" translate="label" sortOrder="999">
+			<label>FiveTech Modules</label>
+		</tab>
+		<section id="doofinder" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+			<label>Doofinder Configurations</label>
+			<tab>orvisoft</tab>
+			<resource>OrviSoft_MagentoDoofinder::config_orvisoft_magentodoofinder</resource>
+			<group id="general" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+				<label>Configurations</label>
+				<field id="status" type="select" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Status</label>
+					<comment>Enable/ Disable the module</comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="zone" type="text" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Zone</label>
+					<comment>Refer to https://www.doofinder.com/support/developer/api/search-api#curl-example</comment>
+				</field>
+				<field id="token" type="text" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Token</label>
+					<comment>Refer to https://www.doofinder.com/support/developer/api/search-api#curl-example</comment>
+				</field>
+				<field id="hashid" type="text" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Hash ID</label>
+					<comment>Refer to https://www.doofinder.com/support/developer/api/search-api#curl-example</comment>
+				</field>
+			</group>
+			<group id="search_settings" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+				<label>Search Settings</label>
+				<field id="rpp" type="text" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Results Per Page</label>
+					<comment>Set number of results on pagination.</comment>
+				</field>
+				<field id="min_length" type="text" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Minimum Search Character limit</label>
+					<comment>Set minimum keyword limit.</comment>
+				</field>
+				<field id="include_filters" type="select" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Include Filters</label>
+					<comment>Include filters in search result</comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="exclude_attributes_list" type="textarea" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Exclude filters</label>
+					<comment><![CDATA[quoma seperate e.g. description,features,weight,entity_id,attribute_set_id,url_key,request_path,required_options,has_options,meta_keyword,short_description,meta_description,stock_item,updated_at,created_at,type_id,tier_price_changed,store_id,popular_products,status,gift_message_available,options_container,thumbnail,small_image,image,bullet_5,bullet_4,bullet_3,bullet_2,bullet_1,google_product_category,msrp_display_actual_price_type,visibility,tier_price]]></comment>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

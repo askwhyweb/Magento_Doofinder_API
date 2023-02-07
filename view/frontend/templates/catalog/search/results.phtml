@@ -1,0 +1,457 @@
+<?php
+/**
+ * @var $block \OrviSoft\MagentoDoofinder\Block\Catalog\Search\Results
+ */
+$results = $block->getResults();
+$_helper = $this->helper('OrviSoft\MagentoDoofinder\Helper\Data');
+$limit = $_helper->returnRequests('product_list_limit') ? $_helper->returnRequests('product_list_limit') : $_helper->getSearchConfig('rpp');
+$page = $_helper->returnRequests('p') ? $_helper->returnRequests('p') : 1;
+$sort = $_helper->returnRequests('sort') ? $_helper->returnRequests('sort') : '';
+$items = 0;
+?>
+<div id="layer-product-list">
+    <div class="products wrapper grid columns5  products-grid">
+    <?php
+	if(isset($results['error'])){
+		echo "No records found.</div>";
+		return;
+	}
+        if(!isset($results['results']) || !count($results['results'])){
+            echo "No records Found...!";
+        }else{
+
+            $totalPages = (int) $results['total'];
+	        $pages = ceil($totalPages / $limit);
+    ?>
+    <div class='toolbar toolbar-products'>
+        <p class='toolbar-amount' id='toolbar-amount' style='display:block; float:right;'>
+            Items <span class='toolbar-number'><?php
+                if($page > 1){
+                    echo $items = (($page - 1)*$limit);
+                }else{
+                    echo $items = $page;
+                }
+                ?></span>-<span class='toolbar-number'><?= ceil($items > 1 ? ($items + $limit) : $limit); ?></span> of <span
+                    class='toolbar-number'><?= (int) $results['total'] ?></span>
+        </p>
+        <div class='field limiter'>
+            <label class='label' for='limiter'>
+                <span>Show</span>
+            </label>
+            <div class='control'>
+                <form>
+                    <?php
+                        $inputs = $_helper->returnRequests();
+                        unset($inputs['product_list_limit']);
+                        if(count($inputs) > 0)
+						{
+                            foreach($inputs as $key => $value){
+                                echo '<input type="hidden" name="',$key.'" value="'.$value.'" />';
+                            }
+                        }
+                    ?>
+                    <select id='limiter' data-role='limiter' class='limiter-options' name="product_list_limit" onchange="this.form.submit();">
+                        <option value='15'<?= ($limit == 15) ? " selected='selected'" : '' ?>>15</option>
+                        <option value='25'<?= ($limit == 25) ? " selected='selected'" : '' ?>>25</option>
+                        <option value='35'<?= ($limit == 35) ? " selected='selected'" : '' ?>>35</option>
+                    </select> 				
+			<label class='label' for='sort'>
+                <span> Sort</span>
+            </label>
+            <div class='control'>
+                <form>
+                    <?php
+                        $sortinputs = $_helper->returnRequests();
+                        unset($sortinputs['sort']);
+                        if(count($sortinputs) != '')
+						{
+                            foreach($sortinputs as $sortkey => $sortvalue){
+                                echo '<input type="hidden" name="',$sortkey.'" value="'.$sortvalue.'" />';
+                            }
+                        }
+                    ?>
+                    <select id='sort' data-role='sort' class='sort-options' name="sort" onchange="this.form.submit();">
+						<option value=''>Select for Sorting</option>
+                        <option value='asc'<?= ($sort == 'asc') ? " selected='selected'" : '' ?>>Price Low to High</option>
+                        <option value='desc'<?= ($sort == 'desc') ? " selected='selected'" : '' ?>>Price High to Low</option>
+                    </select>
+                </form>
+            </div>
+            <span class='limiter-text'>per page</span>
+        </div>
+    </div>
+    <ol class="products list items product-items ">
+        <?php foreach($results['results'] as $_product): ?>
+        <li class="item product product-item">
+            <div class='product-item-info' data-container='product-grid'>
+			<?php
+			if(isset($_product['cashback_tag']) && strlen($_product['cashback_tag'])){
+			if($_product['cashback_tag'] != '' && $_product['cashback_tag'] != '1'):
+			$imageAttribute = $_product['cashback_tag'];
+			$baseUrl = $block->getBaseUrl();
+			$tagImage = $baseUrl.'/media/tagimages/'.$imageAttribute;
+			?>
+			<span class="product-tag-image custom baby-template via-gallary">
+				<img alt="Offer" src="<?= $tagImage; ?>" />
+			</span>
+			<?php endif; } ?>
+                <div class='product photo product-item-photo'>
+                    <a href='<?= $_product['link']; ?>' tabindex='-1'>
+                        <span class='babyfoots-media-container product-list-promo-container' style="height:180px; width:180px;">
+                            <img class='product-image-photo' src='<?= $_product['image_link']; ?>?width=180&height=180&store=default&image-type=small_image' loading='lazy' width='180' height='180' alt='<?= str_replace(["\r\n", "\r", "\n", "'", '"'], '', $_product['title']); ?>' />
+                        </span>
+                    </a>
+                </div>
+                <div class='product details product-item-details'>
+                    <h2 class='product name product-item-name'>
+                        <a class='product-item-link' href='<?= $_product['link']; ?>'><?= $_product['title'] ?>></a>
+                    </h2>
+		            <div class='product description product-item-description'>
+                        <ul class='listing-short-description'>
+                            <?= $block->renderOptions([
+                                'platform' => '',
+                                'processor' => ' Processor',
+                                'screen_size' => ' Screen Size',
+                                'ram_size' => ' RAM',
+								'ram' => ' RAM',
+								'maximum_resolution' => '',
+								'storage_capacity' => ' Storage',
+                                'gpu' =>  ' GPU',
+                                'operating_system' => '',
+                                'display_technology' => 'Display Type: ',
+                                'response_time' => '',
+                                'aspect_ratio' => '',
+                                'refresh_rate' => '',
+                                'printer_type' => '',
+                                'technology' => '',
+                                'display_type' => '',
+                                'connectivity' => '',
+                                'black_print_speed' => '',
+                                'colour_print_speed' => '',
+                                'scanner_type' => '',
+                                'scanning_resolution' => '',
+                                'colour_depth' => '',
+                                'grayscale_depth' => '',
+								'black_print_speed' => '',
+								'colour_print_speed' => '',
+								'scanner_type' => '',
+								'scanning_resolution' => '',
+								'colour_depth' => '',
+								'bullet_2' => '',
+								'bullet_3' => '',
+								'bullet_4' => '',
+								'bullet_5' => '',
+								'bullet_6' => '',
+								'boost_chip_clock' => '',
+								'interface_type' => '',
+								'cooler_type' => '',
+								'power_connector' => '',
+								'recomended_power_supply' => ''
+                            ], $_product); ?>
+                        </ul>
+                    </div>
+    <?php if(isset($_product['special_price'])): ?>
+    <!-- special price -->
+                    <div class='price-box price-final_price'>
+                        <span class='old-price'>
+                            <span class='including_vat_price_box price-container price-final_price tax weee'>
+                                <span class='price-label'>Regular Price</span>
+                                <span id='old-price-' data-price-amount='<?= number_format($_product['price'], 2); ?>' data-price-type='oldPrice' class='price-wrapper '>
+                                    <span class='price'>£<?= number_format($_product['price'], 2); ?></span>
+                                </span>
+                        </span>
+						<span class='excluding_vat_price_box price-container price-final_price tax weee'>
+                                <span class='price-label'>Regular Price</span>
+                                <span id='old-price-' data-price-amount='<?= number_format(($_product['price']/1.2), 2); ?>' data-price-type='oldPrice' class='price-wrapper '>
+                                    <span class='price'>£<?= number_format(($_product['price']/1.2), 2); ?></span>
+                                </span>
+                        </span>
+                        <?php
+							$calcSprice = $_product['special_price'];
+							$calcPrice 	= $_product['price'];;
+							$save 		= $calcPrice - $calcSprice;
+						?>
+							<span class="slash">/</span>
+							<span class="including_vat_price_box save-price">
+							<span><?php echo __('Save'); ?></span>
+							<span id="save-price" data-price-amount="<?php echo $save; ?>" data-price-type="savePrice" class="price-wrapper "><span class="price"><?php echo "£". $save; ?></span></span>
+                            </span>
+							<span class="excluding_vat_price_box save-price">
+							<span><?php echo __('Save'); ?></span>
+							<span id="save-price" data-price-amount="<?php echo ($save/1.2); ?>" class="price-wrapper "><span class="price"><?php echo "£". round(($save/1.2), 2); ?></span></span>
+							</span>
+
+							<br>
+                        <span class='including_vat_price_box price-container price-final_price tax weee'>
+							<!-- <span class='price-label'>Special Price</span>-->
+                            <span id='product-price-783' data-price-amount='<?= number_format($_product['special_price'], 2); ?>' data-price-type='finalPrice' class='price-wrapper '>
+                                <span class='price'>£<?= number_format($_product['special_price'], 2); ?></span>
+                            </span>
+                        </span>
+						<span class='excluding_vat_price_box price-container price-final_price tax weee'>
+							<!-- <span class='price-label'>Special Price</span>-->
+                            <span id='product-price-783' data-price-amount='<?= number_format(($_product['special_price']/1.2), 2); ?>' data-price-type='finalPrice' class='price-wrapper '>
+                                <span class='price'>£<?= number_format(($_product['special_price']/1.2), 2); ?></span>
+                            </span>
+                        </span>
+                    </div>
+	<!-- End special price -->
+    <?php else: ?>
+                    <div class='price-box price-final_price' data-role='priceBox' >
+                        <span class='including_vat_price_box price-container price-final_price tax weee'>
+                            <span id='product-price-41415' data-price-amount='<?= number_format($_product['price'], 2); ?>' data-price-type='finalPrice' class='price-wrapper '>
+                                <span class='price'>£<?= number_format($_product['price'], 2); ?></span>
+                            </span>
+                        </span>
+						<span class='excluding_vat_price_box price-container price-final_price tax weee'>
+                            <span id='product-price-41415' data-price-amount='<?= number_format(($_product['price']/1.2), 2); ?>' data-price-type='finalPrice' class='price-wrapper '>
+                                <span class='price'>£<?= number_format(($_product['price']/1.2), 2); ?></span>
+                            </span>
+                        </span>
+                    </div>
+				<?php endif; ?>
+					<div class="xprice_cal">
+                    <?php
+                    if(isset($_product['special_price'])){
+                        $price = $_product['special_price'];
+                    }else{
+                        $price = $_product['price'];
+                    }
+                    if($price > 99):
+                        $xprice =  number_format(($price/24), 2, '.', '')
+                    ?>
+                    <!-- paypal -->
+					<?php echo $block->getProductPrice($_product) ?>
+                    <div class='xprice_cal'>
+                        <div class='grid_12x_feature'>
+                            <div class='or_main'><span>OR </span></div>
+                            <div class='xprice'><span>24 x £<?= $xprice ?> Interest Free Finance </span></div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+					</div>
+                    <!-- endpaypal -->
+                    <div class='product-item-inner'>
+                        <div class='product actions product-item-actions'>
+						<div class="loader-for-menu"></div>
+                            <div class='actions-primary'>
+                                <?php
+								if (isset($_product['pre_order']) && $_product['pre_order'] == "Yes") { ?>
+								<a href="<?= $_product['link'] ?>" title='Pre Order' class='action primary tocart' style="display:none;">
+                                    <div style="vertical-align: middle">Pre Order</div>
+								</a>
+								<?php } else { ?>
+
+									<a href="<?= $_product['link'] ?>" title=' View Product ' class='action primary tocart' style="display:none;">
+                  <span style="vertical-align: middle">View Product</span>
+									</a>
+									<?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <?php endforeach; ?>
+    </ol>
+    <?php } //echo '<pre>'.print_r($results, true) . '</pre>'; ?>
+</div>
+    <?php
+    $total= $results['total'];
+    $floop=$total/$limit;
+    ?>
+    <div class="pages" style="float:right">
+        <ul class="items pages-items" aria-labelledby="paging-label">
+            <?php
+            $q=$_GET['q'];
+            if(isset($_GET['p']))
+            {
+                $currval=$_GET['p'];
+            }
+            else
+            {
+                $currval=1;
+            }
+            ?>
+            <?php
+            $floop1=$total/$limit;
+            $flop1= intval($floop1);
+            $previous_page = $currval - 1;
+            $previous_page2 = $currval - 2;
+            $next_page = $currval + 1;
+            $next_page2 = $currval + 2;
+            $second_last = $flop1 - 1;
+            $s_last = $flop1 - 2;
+            if($flop1>1)
+            {
+                if ($currval != '1')
+                {
+                    ?>
+                    <li class="item pages-item-previous">
+                        <a class="action  previous" href="/catalogsearch/result/?q=<?php echo $q ;?>&p=<?php echo $previous_page ;?>" title="Previous">
+                            <span class="label">Page</span>
+                            <span>Previous</span>
+                        </a>
+                    </li>
+                    <?php
+                }
+                if($currval<=3)
+                {
+                    for ($x= 1; $x <= 5 ; $x++)
+                    {
+                        if ($currval == $x)
+                        {
+                            ?>
+                            <li class="item current">
+                                <strong class="page">
+                                    <span class="label">You\'re currently reading page</span>
+                                    <span><?php echo $x; ?></span>
+                                </strong>
+                            </li>
+                            <?php
+                        }
+                        else
+                        {
+                            ?>
+                            <li class="item">
+                                <a href="/catalogsearch/result/?q=<?php echo $q ;?>&p=<?php echo $x ;?>" class="page">
+                                    <span class="label">Page</span>
+                                    <span><?php echo $x ; ?></span>
+                                </a>
+                            </li>
+                            <?php
+                        }
+                    }
+                }
+                else if($currval>3)
+                {
+                    if($currval<=$s_last)
+                    {
+                        for ($x= $previous_page2; $x <=$next_page2 ; $x++)
+                        {
+                            if ($currval == $x)
+                            {
+                                ?>
+                                <li class="item current">
+                                    <strong class="page">
+                                        <span class="label">You\'re currently reading page</span>
+                                        <span><?php echo $x; ?></span>
+                                    </strong>
+                                </li>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>
+                                <li class="item">
+                                    <a href="/catalogsearch/result/?q=<?php echo $q ;?>&p=<?php echo $x ;?>" class="page">
+                                        <span class="label">Page</span>
+                                        <span><?php echo $x ; ?></span>
+                                    </a>
+                                </li>
+                                <?php
+                            }
+                        }
+                    }
+                    else if($currval==$second_last)
+                    {
+                        for ($x= $second_last-3; $x <=$flop1 ; $x++)
+                        {
+                            if ($currval == $x)
+                            {
+                                ?>
+                                <li class="item current">
+                                    <strong class="page">
+                                        <span class="label">You\'re currently reading page</span>
+                                        <span><?php echo $x; ?></span>
+                                    </strong>
+                                </li>
+                            <?php					}
+                            else
+                            {
+                                ?>
+                                <li class="item">
+                                    <a href="/catalogsearch/result/?q=<?php echo $q ;?>&p=<?php echo $x ;?>" class="page">
+                                        <span class="label">Page</span>
+                                        <span><?php echo $x ; ?></span>
+                                    </a>
+                                </li>
+                                <?php
+                            }
+                        }
+                    }
+                    else if($currval==$flop1)
+                    {
+                        for ($x= $flop1-4; $x <=$flop1 ; $x++)
+                        {
+                            if ($currval == $x)
+                            {
+                                ?>
+                                <li class="item current">
+                                    <strong class="page">
+                                        <span class="label">You\'re currently reading page</span>
+                                        <span><?php echo $x; ?></span>
+                                    </strong>
+                                </li>
+                            <?php					}
+                            else
+                            {
+                                ?>
+                                <li class="item">
+                                    <a href="/catalogsearch/result/?q=<?php echo $q ;?>&p=<?php echo $x ;?>" class="page">
+                                        <span class="label">Page</span>
+                                        <span><?php echo $x ; ?></span>
+                                    </a>
+                                </li>
+                            <?php					}
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php 	if($flop1>1)
+            {
+                if($currval<$flop1)
+                {
+                    ?>
+                    <li class="item pages-item-next">
+                        <a class="action  next" href="/catalogsearch/result/?q=<?php echo $q ;?>&p=" title="Next">
+                            <span class="label">Page</span>
+                            <span>Next</span>
+                        </a>
+                    </li>
+                    <?php
+                }
+            }
+            ?>
+        </ul>
+    </div>
+</div>
+</div>
+<style>
+#save-price span.price {text-decoration: none;}
+#save-price span.price { text-decoration: none;}
+span.price-container.price-final_price.tax.weee span.price {text-decoration:none;}
+span.price-container.price-final_price.tax.weee #old-price- span.price { text-decoration: line-through;}
+#layer-product-list dl.block{display: none;}
+</style>
+<script type='text/javascript'>
+    require([
+        'jquery'
+    ], function ($) {
+        $('.main .products.grid .product-items li.product-item:nth-child(2n)').addClass('nth-child-2n');
+        $('.main .products.grid .product-items li.product-item:nth-child(2n+1)').addClass('nth-child-2np1');
+        $('.main .products.grid .product-items li.product-item:nth-child(3n)').addClass('nth-child-3n');
+        $('.main .products.grid .product-items li.product-item:nth-child(3n+1)').addClass('nth-child-3np1');
+        $('.main .products.grid .product-items li.product-item:nth-child(4n)').addClass('nth-child-4n');
+        $('.main .products.grid .product-items li.product-item:nth-child(4n+1)').addClass('nth-child-4np1');
+        $('.main .products.grid .product-items li.product-item:nth-child(5n)').addClass('nth-child-5n');
+        $('.main .products.grid .product-items li.product-item:nth-child(5n+1)').addClass('nth-child-5np1');
+        $('.main .products.grid .product-items li.product-item:nth-child(6n)').addClass('nth-child-6n');
+        $('.main .products.grid .product-items li.product-item:nth-child(6n+1)').addClass('nth-child-6np1');
+        $('.main .products.grid .product-items li.product-item:nth-child(7n)').addClass('nth-child-7n');
+        $('.main .products.grid .product-items li.product-item:nth-child(7n+1)').addClass('nth-child-7np1');
+        $('.main .products.grid .product-items li.product-item:nth-child(8n)').addClass('nth-child-8n');
+        $('.main .products.grid .product-items li.product-item:nth-child(8n+1)').addClass('nth-child-8np1');
+    });
+</script>
